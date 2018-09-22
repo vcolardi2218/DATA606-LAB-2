@@ -1,0 +1,90 @@
+---
+title: "DATA606_LAB2"
+author: "Vincent Colardi"
+date: "September 22, 2018"
+output: html_document
+---
+
+
+## Getting Started
+```{r}
+load("C:/Users/Vinny/Documents/R/win-library/3.5/DATA606/labs/Lab2/more/kobe.RData")
+head(kobe)
+kobe$basket[1:9]
+```
+### Exercise 1 
+### What does a streak of length 1 mean, i.e. how many hits and misses are in a streak of 1? What about a streak length of 0?
+#### [ANSWER] A streak of length 1 means that Kobe had 1 successfull hit followed by a miss. A streak of length zero means that Kobe had a miss. 
+```{r}
+kobe_streak <- calc_streak(kobe$basket)
+barplot(table(kobe_streak))
+```
+
+
+### Exercise 2
+### Describe the distribution of Kobe's streak lengths from the 2009 NBA finals. What was his typical streak length? How long was his longest streak of baskets?
+#### [ANSWER] This distribution is a right skewed distribution and the mode is bimodal because there are 2 prominent peaks. The most typical streak length is zero. His longest streak was 4 but this was very infrequent. 
+
+## Simulations in R
+
+```{r}
+outcomes <- c("heads", "tails")
+sample(outcomes, size = 1, replace = TRUE)
+sim_fair_coin <- sample(outcomes, size = 100, replace = TRUE)
+sim_fair_coin
+table(sim_fair_coin)
+sim_unfair_coin <- sample(outcomes, size = 100, replace = TRUE, prob = c(0.2, 0.8))
+sim_unfair_coin
+table(sim_unfair_coin)
+```
+
+### Exercise 3
+### In your simulation of flipping the unfair coin 100 times, how many flips came up heads?
+#### [ANSWER] In my simulation there wer 16 heads and 84 tails which is roughly the probablity of .20 and .80. 
+
+## Simulating the Independent Shooter
+```{r}
+outcomes <- c("H", "M")
+sim_basket <- sample(outcomes, size = 1, replace = TRUE)
+sim_basket
+```
+### Exercise 4
+### What change needs to be made to the sample function so that it reflects a shooting percentage of 45%? Make this adjustment, then run a simulation to sample 133 shots. Assign the output of this simulation to a new object called  sim_basket.
+```{r}
+sim_basket <- sample(outcomes, size = 133, replace = TRUE, prob = c(0.45, 0.55))
+sim_basket
+table(sim_basket)
+kobe$basket
+sim_basket
+```
+
+## On your own
+
+### Comparing Kobe Bryant to the Independent Shooter
+### Using calc_streak, compute the streak lengths of sim_basket.
+```{r}
+sim_basket_streak <- calc_streak(sim_basket)
+sim_basket_streak
+table(sim_basket_streak)
+barplot(table(sim_basket_streak))
+```
+
+### 1. Describe the distribution of streak lengths. What is the typical streak length for this simulated independent shooter with a 45% shooting percentage? How long is the player's longest streak of baskets in 133 shots?
+#### [ANSWER] The distribution is right skewed, bimodal distribution with 2 prominent peaks. The typical streak is zero. The longest streak is 4.
+
+### 2. If you were to run the simulation of the independent shooter a second time, how would you expect its streak distribution to compare to the distribution from the question above? Exactly the same? Somewhat similar? Totally different? Explain your reasoning.
+#### [ANSWER] The distribution is somewhat similiar in that it is right skewed and bimodal and the most typical streak is zero; where it is different is that the longest streak in this simulation is 6 which is quite remarkable. 
+```{r}
+sim_basket <- sample(outcomes, size = 133, replace = TRUE, prob = c(0.45, 0.55))
+sim_basket_streak <- calc_streak(sim_basket)
+sim_basket_streak
+table(sim_basket_streak)
+barplot(table(sim_basket_streak))
+```
+
+### 3. How does Kobe Bryant's distribution of streak lengths compare to the distribution of streak lengths for the simulated shooter? Using this comparison, do you have evidence that the hot hand model fits Kobe's shooting patterns? Explain.
+#### [ANSWER] The distribution is very similiar. In one simulation, the streak lengths are almost identical. I believe given the evidence, there is not enough data to confirm the hot shooter theory. It appears that the shoot streaks are more inline with the players overall shot success rates.  
+
+
+
+
